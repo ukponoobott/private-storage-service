@@ -23,16 +23,16 @@ variable "branch_location" {
 }
 
 variable "branch_subscription_id" {
-  
+
 }
 variable "branch_tenant_id" {
-  
+
 }
 
 variable "branch_client_id" {
-  
+
 }
 
 variable "branch_client_secret" {
-  
+
 }

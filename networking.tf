@@ -52,7 +52,7 @@ resource "azurerm_virtual_network" "branch" {
   resource_group_name = azurerm_resource_group.branch.name
   location            = azurerm_resource_group.branch.location
   address_space       = ["168.0.0.0/16"]
-  
+
   provider = azurerm.branch
 }
 

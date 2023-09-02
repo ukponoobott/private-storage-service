@@ -34,6 +34,7 @@ To test conncetivity, login to the dev virtual machine with the randomly generat
 | Name | Version |
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.50.0 |
+| <a name="provider_azurerm.branch"></a> [azurerm.branch](#provider\_azurerm.branch) | 3.50.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
@@ -56,7 +57,6 @@ No modules.
 | [azurerm_resource_group.branch](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/resource_group) | resource |
 | [azurerm_storage_account.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/storage_account) | resource |
-| [azurerm_storage_container.archive](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/storage_container) | resource |
 | [azurerm_subnet.branch](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/subnet) | resource |
 | [azurerm_subnet.main](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/subnet) | resource |
 | [azurerm_subnet_network_security_group_association.branch](https://registry.terraform.io/providers/hashicorp/azurerm/3.50.0/docs/resources/subnet_network_security_group_association) | resource |
@@ -72,6 +72,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_branch_client_id"></a> [branch\_client\_id](#input\_branch\_client\_id) | n/a | `any` | n/a | yes |
+| <a name="input_branch_client_secret"></a> [branch\_client\_secret](#input\_branch\_client\_secret) | n/a | `any` | n/a | yes |
+| <a name="input_branch_subscription_id"></a> [branch\_subscription\_id](#input\_branch\_subscription\_id) | n/a | `any` | n/a | yes |
+| <a name="input_branch_tenant_id"></a> [branch\_tenant\_id](#input\_branch\_tenant\_id) | n/a | `any` | n/a | yes |
 | <a name="input_branch_location"></a> [branch\_location](#input\_branch\_location) | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. | `string` | `"westus2"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | (Required) The environment in which the resources are been created. | `string` | `"dev"` | no |
 | <a name="input_main_location"></a> [main\_location](#input\_main\_location) | (Required) Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created. | `string` | `"eastus2"` | no |
