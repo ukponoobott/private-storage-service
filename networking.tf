@@ -84,18 +84,6 @@ resource "azurerm_network_security_group" "main" {
   #     destination_address_prefix = "VirtualNetwork"
   #   }
 
-  #   security_rule {
-  #     name                       = "Deny-Internet-To-Dev"
-  #     priority                   = 301
-  #     direction                  = "Inbound"
-  #     access                     = "Deny"
-  #     protocol                   = "*"
-  #     source_port_range          = "*"
-  #     destination_port_range     = "*"
-  #     source_address_prefix      = "Internet"
-  #     destination_address_prefix = "VirtualNetwork"
-  #   }
-
 }
 
 resource "azurerm_subnet_network_security_group_association" "main" {
@@ -122,19 +110,6 @@ resource "azurerm_network_security_group" "branch" {
     source_address_prefix      = "*"
     destination_address_prefix = "VirtualNetwork"
   }
-
-  #   security_rule {
-  #     name                       = "Deny-Internet-To-Sandbox"
-  #     priority                   = 301
-  #     direction                  = "Inbound"
-  #     access                     = "Deny"
-  #     protocol                   = "*"
-  #     source_port_range          = "*"
-  #     destination_port_range     = "*"
-  #     source_address_prefix      = "Internet"
-  #     destination_address_prefix = "VirtualNetwork"
-  #   }
-
   #   provider = azurerm.
 
 }

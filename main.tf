@@ -27,7 +27,6 @@ resource "azurerm_storage_account" "main" {
   #   provider = azurerm.
 }
 
-# storage container in sandbox subscription
 resource "azurerm_storage_container" "archive" {
   name                  = "archive"
   storage_account_name  = azurerm_storage_account.main.name
@@ -36,7 +35,7 @@ resource "azurerm_storage_container" "archive" {
   #   provider = azurerm.
 }
 
-# storage blob in sandbox container
+
 # resource "azurerm_storage_blob" "sandbox_blob" {
 #   name                   = ""
 #   storage_account_name   = azurerm_storage_account.main.name
@@ -92,8 +91,6 @@ resource "random_password" "password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-
-# virtual machine in dev subscription
 resource "azurerm_linux_virtual_machine" "branch" {
   name                            = "vm-${var.workload}-${var.environment}-${var.branch_location}"
   resource_group_name             = azurerm_resource_group.branch.name
