@@ -6,6 +6,7 @@ resource "azurerm_resource_group" "main" {
 resource "azurerm_resource_group" "branch" {
   name     = "rg-${var.workload}-${var.environment}-${var.branch_location}"
   location = var.branch_location
+  provider = azurerm.branch
 }
 
 resource "random_string" "random" {
@@ -23,17 +24,16 @@ resource "azurerm_storage_account" "main" {
   account_replication_type        = "LRS"
   public_network_access_enabled   = false
   allow_nested_items_to_be_public = false
-
   #   provider = azurerm.
 }
 
-resource "azurerm_storage_container" "archive" {
-  name                  = "archive"
-  storage_account_name  = azurerm_storage_account.main.name
-  container_access_type = "private"
+# resource "azurerm_storage_container" "archive" {
+#   name                  = "archive"
+#   storage_account_name  = azurerm_storage_account.main.name
+#   container_access_type = "private"
 
-  #   provider = azurerm.
-}
+#   #   provider = azurerm.
+# }
 
 
 # resource "azurerm_storage_blob" "sandbox_blob" {
@@ -58,6 +58,10 @@ resource "azurerm_private_endpoint" "blob" {
     subresource_names              = ["blob"]
     is_manual_connection           = false
   }
+  private_dns_zone_group {
+    name                 = "${azurerm_storage_account.main.name}.privatelink.blob.core.windows.net"
+    private_dns_zone_ids = [azurerm_private_dns_zone.blob.id]
+  }
 
   #   provider = azurerm.
 }
@@ -77,11 +81,13 @@ resource "azurerm_network_interface" "server" {
   resource_group_name = azurerm_resource_group.branch.name
 
   ip_configuration {
-    name                          = "{var.workload}-${var.environment}-${var.branch_location}-ipconfig"
+    name                          = "${var.workload}-${var.environment}-${var.branch_location}-ipconfig"
     subnet_id                     = azurerm_subnet.branch.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.server.id
   }
+
+  provider = azurerm.branch
 
 }
 # generate random password for virtual machine
@@ -97,7 +103,7 @@ resource "azurerm_linux_virtual_machine" "branch" {
   location                        = azurerm_resource_group.branch.location
   size                            = "Standard_B1ms"
   admin_username                  = "adminuser"
-  admin_password                  = random_password.password.result
+  admin_password                  = "123456@Abc"
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.server.id,
@@ -114,4 +120,6 @@ resource "azurerm_linux_virtual_machine" "branch" {
     sku       = "16.04-LTS"
     version   = "latest"
   }
+
+  provider = azurerm.branch
 }

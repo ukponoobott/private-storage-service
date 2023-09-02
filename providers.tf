@@ -23,10 +23,10 @@ provider "random" {
 # remote provider-branch
 provider "azurerm" {
   features {}
-  subscription_id = var.sandbox_subscription_id
-  client_id       = var.sandbox_client_id
-  client_secret   = var.sandbox_client_secret
-  tenant_id       = var.sandbox_tenant_id
+  subscription_id = var.branch_subscription_id
+  client_id       = var.branch_client_id
+  client_secret   = var.branch_client_secret
+  tenant_id       = var.branch_tenant_id
   alias           = "branch"
 }
 

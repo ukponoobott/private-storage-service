@@ -24,13 +24,15 @@ resource "azurerm_virtual_network_peering" "branch" {
   resource_group_name       = azurerm_resource_group.branch.name
   virtual_network_name      = azurerm_virtual_network.branch.name
   remote_virtual_network_id = azurerm_virtual_network.main.id
+
+  provider = azurerm.branch
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "main" {
-  name                  = "main-link"
+  name                  = "branch-link"
   resource_group_name   = azurerm_resource_group.main.name
   private_dns_zone_name = azurerm_private_dns_zone.blob.name
-  virtual_network_id    = azurerm_virtual_network.main.id
+  virtual_network_id    = azurerm_virtual_network.branch.id
   registration_enabled  = false
 }
 
@@ -50,7 +52,8 @@ resource "azurerm_virtual_network" "branch" {
   resource_group_name = azurerm_resource_group.branch.name
   location            = azurerm_resource_group.branch.location
   address_space       = ["168.0.0.0/16"]
-
+  
+  provider = azurerm.branch
 }
 
 resource "azurerm_subnet" "branch" {
@@ -58,6 +61,8 @@ resource "azurerm_subnet" "branch" {
   resource_group_name  = azurerm_resource_group.branch.name
   virtual_network_name = azurerm_virtual_network.branch.name
   address_prefixes     = ["168.0.1.0/24"]
+
+  provider = azurerm.branch
 }
 
 resource "azurerm_public_ip" "server" {
@@ -65,12 +70,14 @@ resource "azurerm_public_ip" "server" {
   resource_group_name = azurerm_resource_group.branch.name
   location            = azurerm_resource_group.branch.location
   allocation_method   = "Dynamic"
+
+  provider = azurerm.branch
 }
 
 resource "azurerm_network_security_group" "main" {
   name                = "nsg-${var.workload}-${var.environment}-${var.main_location}-main"
-  location            = azurerm_resource_group.branch.location
-  resource_group_name = azurerm_resource_group.branch.name
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
 
   #   security_rule {
   #     name                       = "Allow-SSH"
@@ -110,7 +117,7 @@ resource "azurerm_network_security_group" "branch" {
     source_address_prefix      = "*"
     destination_address_prefix = "VirtualNetwork"
   }
-  #   provider = azurerm.
+  provider = azurerm.branch
 
 }
 
@@ -118,6 +125,6 @@ resource "azurerm_subnet_network_security_group_association" "branch" {
   subnet_id                 = azurerm_subnet.branch.id
   network_security_group_id = azurerm_network_security_group.branch.id
 
-  #   provider = azurerm.
+  provider = azurerm.branch
 
 }

@@ -1,12 +1,25 @@
-## Vnet Peering between subscriptions
-This terraform code configures vnet peering between subcriptions.
-A virtual machine and a private dns zone are deployed in the default subcription while a storage account and a private endpoint are deployed in remote subscription.
+## Private storage using Private endpoint
+This terraform code configures vnet peering between subcriptions to allow private access to files in storage account over a prviate connection.
+
+Think of an Organization with an Head office and branch office looking to create a secure way for all branches to access archived data over private connection.
+
+The main office in East US had the storage account deployed in their subscription while the branch office in West US have a VM deployed to securely access data over a private endpoint.
+
 Public access is disabled in the storage so communication can only be possible through the private endpont.
+
 Note that for container creation to be possible in the storage account, the variable: _public_network_access_enabled_ must be set to true. It can then be set to false after container creation.
+
+
 ## Test connectivity
 To test conncetivity, login to the dev virtual machine with the randomly generated password securely stored in the terraform.tfstate file and do the following: 
-* nslookup StorageAccountName.privatelink.blob.core.windows.net  //This should show the private ip address of the storage account.
-*  az storage blob list --container-name sandbox-container --connection-string StorageAccountConnectionString  //This is to list the blob created in the container. This command is possible after installing azure cli.
+* nslookup <storageAccountName>.privatelink.blob.core.windows.net  //This should show the private ip address of the storage account.
+*  az storage blob list --container-name <containerName> --connection-string <StorageAccountConnectionString>  // This is to list the blob created in the container. This command is possible after installing azure cli.
+
+## Using AzCopy
+- curl -L https://aka.ms/downloadazcopy-v10-linux -o azcopy.tar.gz
+- tar -xf azcopy.tar.gz --strip-components=1
+- sudo mv azcopy /usr/local/bin/
+- azcopy list <"https://<storageAccountName>.blob.core.windows.net/***> // SAS URL
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
